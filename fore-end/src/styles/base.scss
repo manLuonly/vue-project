@@ -1,0 +1,14 @@
+// 项目的基础样式
+
+@import './common/reset.scss';
+@import './common/var.scss';
+
+html, body {
+    height: 100%;
+  }
+  
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
