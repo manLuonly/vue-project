@@ -1,0 +1,16 @@
+{
+  "code": 0,
+  "msg": "获取成功",
+  "data": {
+    "list": [
+      {
+        "filmId": 1,
+        "filmName": "海王"
+      },
+      {
+        "filmId": 2,
+        "filmName": "猫王"
+      }
+    ]
+  }
+}

@@ -5,7 +5,7 @@
     :key="index"
     :class="item.id"
     :to="{ path: item.path }"
-    :tag="li"
+    tag="li"
     active-class="z-act"
     >
     <i class="img"></i>
@@ -42,7 +42,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  @import '@/styles/common/px2rem.scss';
+@import '@/styles/common/px2rem.scss';
 
 .nav-bar {
   flex-shrink: 0;

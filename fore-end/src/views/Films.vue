@@ -34,16 +34,14 @@
         <li :class="{'z-act': $route.path === '/films/nowPlaying'}" @click="switchList('now')">
           <span>正在热映</span>
         </li>
-        <li :class="{'z-act': $route.path === './films/comingSoon'}" @click="switchList('soon')">
+        <li :class="{'z-act': $route.path === '/films/comingSoon'}" @click="switchList('soon')">
           <span>即将上映</span>
         </li>
       </ul>
     </div>
     <!-- /tab-bar -->
+    <router-view></router-view>
 
-    <!-- list -->
-
-    <!-- /list -->
   </div>
 </template>
 <script>
@@ -56,7 +54,7 @@ export default {
   data () {
     return {
       // 当前城市
-      curCity: ''
+      curCity: '深圳'
     }
   },
 
@@ -64,20 +62,18 @@ export default {
     /**
      * 根据百度地图地位的api。获取当前的城市
      */
-    getCityName () {
-      /* eslint-disable */
-      let myCity = new BMap.LocalCity();
-      myCity.get((result) => {
-        this.curCity = result.name;
-      })
-    },
+    // getCityName () {
+    //   let myCity = new BMap.LocalCity();
+    //   myCity.get((result) => {
+    //     this.curCity = result.name;
+    //   })
+    // },
 
     /**
      * 切换路由
      */
     switchList (type) {
       if (type === 'now') {
-        // this.$router.push('/films/nowPlaying');
         this.$router.push({
           name: 'nowPlaying'
         })
@@ -107,136 +103,67 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '@/styles/common/px2rem.scss';
-  @import 'swiper/dist/css/swiper.min.css';
+@import '@/styles/common/px2rem.scss';
+@import 'swiper/dist/css/swiper.min.css';
 
-  .films-list {
-    flex: 1;
-    overflow-y: auto;
+.films-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.swiper-container {
+  height: px2rem(210);
+
+  .swiper-pagination-bullet {
+    width: px2rem(10);
+    height: px2rem(10);
   }
-
-  .swiper-container {
-    height: px2rem(210);
-
-    .swiper-pagination-bullet {
-      width: px2rem(10);
-      height: px2rem(10);
-    }
-
-    .swiper-pagination-bullet-active {
-      background: yellowgreen;
-    }
+  .swiper-pagination-bullet-active {
+    background: yellowgreen;
   }
+}
 
-  .city-fixed {
-    position: absolute;
-    top: px2rem(18);
-    left: px2rem(8);
-    z-index: 999;
-    height: px2rem(30);
-    line-height: px2rem(30);
-    font-size: px2rem(14);
-    color: #fff;
-    border-radius: px2rem(15);
-    text-align: center;
-    padding: 0 px2rem(5);
-    background: rgba(0, 0, 0, 0.2);
-  }
+img{
+  width: 100%;
+}
 
-  .tab-bar-wrapper {
-    position: sticky;
-    z-index: 999;
-    top: px2rem(0);
+.city-fixed {
+  position: absolute;
+  top: px2rem(18);
+  left: px2rem(8);
+  z-index: 999;
+  height: px2rem(30);
+  line-height: px2rem(30);
+  font-size: px2rem(14);
+  color: #fff;
+  border-radius: px2rem(15);
+  text-align: center;
+  padding: 0 px2rem(5);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.tab-bar-wrapper {
+  position: sticky;
+  z-index: 999;
+  top: px2rem(0);
+  height: px2rem(50);
+  border-bottom: px2rem(1) solid #ededed;
+  background: #fff;
+  .tab-bar {
+    display: flex;
     height: px2rem(50);
-    border-bottom: px2rem(1) solid #ededed;
-    background: #fff;
-
-    .tab-bar {
-      display: flex;
-      height: px2rem(50);
-      align-items: center;
-
-      li {
-        flex: 1;
-        text-align: center;
-        font-size: px2rem(14);
-
-        span {
-          padding: 0 px2rem(10);
-        }
-
-        &.z-act {
-          color: #ff5f16;
-        }
-      }
-    }
-  }
-
-  .film-list-content {
+    align-items: center;
     li {
-      display: flex;
-      margin: 0 px2rem(15);
-      padding: px2rem(15) 0;
-      border-bottom: px2rem(1) solid #ededed;
-    }
-
-    .img {
-      flex-shrink: 0;
-      width: px2rem(66);
-      height: px2rem(94);
-
-      img {
-        width: 100%;
-      }
-    }
-
-    .info {
-      min-width: 100px;
-      padding: 0 px2rem(10);
-      font-size: px2rem(14);
-
-      &>div {
-        width: 100%;
-        height: px2rem(22);
-        line-height: px2rem(22);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .label {
-        color: #797d82;
-        margin-right: px2rem(2);
-      }
-
-      .name {
-        font-size: px2rem(16);
-        color: #191a1b;
-      }
-
-      .type {
-        font-size: px2rem(12);
-        color: #fff;
-        background: #d2d6dc;
-        padding: 0 px2rem(2);
-      }
-
-      .grade {
-        color: #ffb232;
-      }
-    }
-
-    .buy {
-      flex-shrink: 0;
-      align-self: center;
-      width: px2rem(50);
-      height: px2rem(26);
-      line-height: px2rem(26);
-      font-size: px2rem(14);
-      color: #ff5f16;
-      border: px2rem(1) solid #ff5f16;
+      flex: 1;
       text-align: center;
-      border-radius: px2rem(4);
+      font-size: px2rem(14);
+      span {
+        padding: 0 px2rem(10);
+      }
+      &.z-act {
+        color: #ff5f16;
+      }
     }
   }
+}
 </style>
