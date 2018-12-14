@@ -1,7 +1,8 @@
 // 路由相关的代码
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
+// import NProgress from 'nprogress';
+// import 'nprogress/nprogress.css';
 // 引入路由组件
 // import Films from './views/Films.vue';
 // import Cinema from './views/Cinema.vue';
@@ -25,13 +26,16 @@ const router = new VueRouter({
         {
           // 首页
           path: 'films',
-          name: 'films',
           component: () => import('./views/Films.vue'),
           children: [
             {
+              path: '',
+              redirect: '/films/nowPlaying'
+            },
+            {
               path: 'nowPlaying',
               name: 'nowPlaying',
-              component: () => import('./components/NowPaly/index.vue')
+              component: () => import('./components/NowPlay/index.vue')
             },
             {
               path: 'comingSoon',

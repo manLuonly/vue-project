@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  export default {
+export default {
   name: 'FilmDetail',
 
   data () {
@@ -48,12 +48,12 @@
   methods: {
     getFilmDetail () {
       setTimeout(() => {
-        if (this.$route.params.filmId === 446) {
+        if (this.$route.params.filmId === 4469) {
           this.filmName = '海王';
         } else {
           this.filmName = '猫王';
         }
-      },2000)
+      }, 2000)
     }
   },
 
@@ -61,15 +61,15 @@
     this.getFilmDetail();
   },
 
-  beforeRouteEnter (to,from,next) {
+  beforeRouteEnter (to, from, next) {
     next();
   },
 
-  beforeRouteUpdate (to,from,next) {
+  beforeRouteUpdate (to, from, next) {
     this.getFilmDetail();
   },
 
-  beforeRouteLeave (to,from,next) {
+  beforeRouteLeave (to, from, next) {
     next();
   }
 }

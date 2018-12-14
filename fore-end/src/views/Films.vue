@@ -1,60 +1,48 @@
 <template>
-  <div class="films-list">
-    <!-- 轮播图 -->
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <img src="../images/pic-1.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="../images/pic-2.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="../images/pic-3.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-          <img src="../images/pic-4.jpg" alt="">
-        </div>
+    <div class="films-list">
+
+      <Banner></Banner>
+
+      <!-- 定位城市 -->
+      <div class="city-fixed">
+        <span>{{ curCity }}</span>
+        <i class="iconfont icon-xiala"></i>
       </div>
-      <!-- 如果需要分页器 -->
-      <div class="swiper-pagination"></div>
-    </div>
-    <!-- /轮播图 -->
+      <!-- /定位城市 -->
 
-    <!-- 定位城市 -->
-    <div class="city-fixed">
-      <span>{{ curCity }}</span>
-      <i class="iconfont icon-xiala"></i>
-    </div>
-    <!-- /定位城市 -->
+      <!-- tab-bar -->
+      <div class="tab-bar-wrapper">
+        <ul class="tab-bar">
+          <li :class="{'z-act': $route.path === '/films/nowPlaying'}" @click="switchList('now')">
+            <span>正在热映</span>
+          </li>
+          <li :class="{'z-act': $route.path === '/films/comingSoon'}" @click="switchList('soon')">
+            <span>即将上映</span>
+          </li>
+        </ul>
+      </div>
+      <!-- /tab-bar -->
 
-    <!-- tab-bar -->
-    <div class="tab-bar-wrapper">
-      <ul class="tab-bar">
-        <li :class="{'z-act': $route.path === '/films/nowPlaying'}" @click="switchList('now')">
-          <span>正在热映</span>
-        </li>
-        <li :class="{'z-act': $route.path === '/films/comingSoon'}" @click="switchList('soon')">
-          <span>即将上映</span>
-        </li>
-      </ul>
-    </div>
-    <!-- /tab-bar -->
-    <router-view></router-view>
+      <router-view></router-view>
 
-  </div>
-</template>
+    </div>
+  </template>
 <script>
 // 引入 Swiper
 import Swiper from 'swiper';
+import Banner from '../components/Banner';
 
 export default {
   name: 'Films',
 
+  components: {
+    Banner
+  },
+
   data () {
     return {
       // 当前城市
-      curCity: '深圳'
+      curCity: ''
     }
   },
 
@@ -62,12 +50,13 @@ export default {
     /**
      * 根据百度地图地位的api。获取当前的城市
      */
-    // getCityName () {
-    //   let myCity = new BMap.LocalCity();
-    //   myCity.get((result) => {
-    //     this.curCity = result.name;
-    //   })
-    // },
+    /* eslint-disable */
+    getCityName () {
+      let myCity = new BMap.LocalCity();
+      myCity.get((result) => {
+        this.curCity = result.name;
+      })
+    },
 
     /**
      * 切换路由

@@ -1,0 +1,15 @@
+.swiper-container {
+  height: px2rem(210);
+
+  .swiper-pagination-bullet {
+    width: px2rem(10);
+    height: px2rem(10);
+  }
+  .swiper-pagination-bullet-active {
+    background: yellowgreen;
+  }
+
+  img {
+    width: 100%;
+  }
+}

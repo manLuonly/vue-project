@@ -22,8 +22,8 @@ export default {
     return {
       bars: [
         {
-          id: 'films',
-          path: '/films/nowPlaying',
+          id: 'nowPlaying',
+          path: '/films',
           name: '电影'
         },
         {
