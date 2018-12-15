@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <router-link to="/film/9898">我要看猫王</router-link>
+    <router-link to="/film/9898">猫王</router-link>
   </div>
 </template>
 
@@ -62,10 +62,12 @@ export default {
   },
 
   beforeRouteEnter (to, from, next) {
+    // 进入详情页面就会被调用
     next();
   },
 
   beforeRouteUpdate (to, from, next) {
+    // 发生变化,就请求后台数据
     this.getFilmDetail();
   },
 

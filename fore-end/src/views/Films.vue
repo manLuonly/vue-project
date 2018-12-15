@@ -22,7 +22,7 @@
         </ul>
       </div>
       <!-- /tab-bar -->
-
+      <!-- 底部组件的坑 -->
       <router-view></router-view>
 
     </div>
@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       // 当前城市
-      curCity: '深圳'
+      curCity: ''
     }
   },
 
@@ -74,7 +74,7 @@ export default {
   },
 
   created () {
-    // this.getCityName();
+    this.getCityName();
   },
 
   mounted () {

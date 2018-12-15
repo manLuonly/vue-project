@@ -1,8 +1,8 @@
 // 路由相关的代码
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import NProgress from 'nprogress';
-// import 'nprogress/nprogress.css';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 // 引入路由组件
 // import Films from './views/Films.vue';
 // import Cinema from './views/Cinema.vue';
@@ -10,13 +10,14 @@ import VueRouter from 'vue-router';
 // import SoonPlay from './components/SoonPlay';
 // import Center from './views/Center.vue';
 
-// 插件安装
+// 插件安装(挂载路由)
 Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
     {
       path: '/',
+      // 引入路由组件
       component: () => import('./views/Home.vue'),
       children: [
         {
@@ -60,6 +61,7 @@ const router = new VueRouter({
     },
     {
       // 详情页面
+      // 传递ID
       path: '/film/:filmId',
       name: 'filmDetail',
       component: () => import('./views/FilmDetail.vue'),
@@ -81,6 +83,7 @@ const router = new VueRouter({
       children: [
         {
           path: 'card',
+          // 下面这个注释是让页面请求的文件名为card.js,而不是0.js之类..
           component: () => import(/* webpackChunkName: "card" */ './views/Card.vue'),
           beforeEnter (to, from, next) {
             // 用没有登录
@@ -94,6 +97,7 @@ const router = new VueRouter({
               next({
                 path: '/user/login',
                 query: {
+                  // 登录完成之后重新跳回登录之前的页面,而不是跳到登录页面
                   redirect: to.fullPath
                 }
               })
@@ -112,6 +116,15 @@ const router = new VueRouter({
     }
   ]
 });
+// 添加进度条
+router.beforeEach((to, from, next) => {
+  NProgress.start();
+  next();
+});
+
+router.afterEach((to, from, next) => {
+  NProgress.done();
+})
 
 // 需要暴露
 export default router;

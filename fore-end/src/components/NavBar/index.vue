@@ -28,12 +28,12 @@ export default {
         },
         {
           id: 'cinemas',
-          path: 'cinemas',
+          path: '/cinemas',
           name: '影院'
         },
         {
           id: 'center',
-          path: 'center',
+          path: '/center',
           name: '我的'
         }
       ]
@@ -68,7 +68,7 @@ export default {
       background-size: 100%;
     }
 
-    &.films {
+    &.nowPlaying {
       .img {
         background-image: url('./images/films.png');
       }

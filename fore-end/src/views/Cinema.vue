@@ -11,7 +11,6 @@ export default {
 </script>
 
 <style lang="scss">
-/* @import '../styles/common/px2rem.scss'; */
 @import '@/styles/common/px2rem.scss';
 
 .cinemas-list {

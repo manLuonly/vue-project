@@ -46,7 +46,7 @@ export default {
     getFilms () {
       axios.get('/api/film/list', {
         params: {
-          // get 请求的参数要放在这个里面传递
+          // get 请求的参数传递
           pageNum: this.pageNum,
           pageSize: this.pageSize
         }
@@ -77,7 +77,7 @@ export default {
     },
     // 加载更多
     loadMore () {
-      console.log(1);
+      console.log('请求数据');
       if (this.pageNum < this.totalPage) {
         this.pageNum++;
         this.getFilms();
@@ -93,7 +93,7 @@ export default {
       })
     }
   },
-
+  // 默认加载一页
   created () {
     this.getFilms();
   }
