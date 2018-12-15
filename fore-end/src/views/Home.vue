@@ -5,9 +5,9 @@
     enter-active-class="animated bounceInup"
     leave-active-class="animated bounceOutDown"
     >
-    <router-viwe></router-viwe>
+    <router-view></router-view>
     </transition>
-    <NavBar></NavBar>
+    <!-- <NavBar></NavBar> -->
   </div>
 </template>
 

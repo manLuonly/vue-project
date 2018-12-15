@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       // 当前城市
-      curCity: ''
+      curCity: '深圳'
     }
   },
 
@@ -54,6 +54,7 @@ export default {
     getCityName () {
       let myCity = new BMap.LocalCity();
       myCity.get((result) => {
+        console.log(result)
         this.curCity = result.name;
       })
     },
@@ -73,7 +74,7 @@ export default {
   },
 
   created () {
-    this.getCityName();
+    // this.getCityName();
   },
 
   mounted () {
