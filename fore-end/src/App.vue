@@ -6,6 +6,7 @@
     enter-active-class="animate bounceInUp"
     leave-active-class="animate bounceOutDown"
     >
+    <!-- 底部组件的坑 -->
     <router-view></router-view>
     </transition>
   </div>

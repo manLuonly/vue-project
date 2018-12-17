@@ -3,12 +3,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-// 引入路由组件
-// import Films from './views/Films.vue';
-// import Cinema from './views/Cinema.vue';
-// import NowPlay from './components/NowPlay';
-// import SoonPlay from './components/SoonPlay';
-// import Center from './views/Center.vue';
 
 // 插件安装(挂载路由)
 Vue.use(VueRouter);
@@ -51,6 +45,12 @@ const router = new VueRouter({
           name: 'cinemas',
           component: () => import('./views/Cinema.vue')
         },
+        // 9.9拼团
+        {
+          path: 'group',
+          name: 'group',
+          component: () => import('./views/Group.vue')
+        },
         {
           // 个人中心页
           path: 'center',
@@ -66,7 +66,7 @@ const router = new VueRouter({
       name: 'filmDetail',
       component: () => import('./views/FilmDetail.vue'),
       beforeEnter (to, from, next) {
-        console.log('路由独享的钩子函数');
+        // console.log('路由独享的钩子函数');
         next();
       }
     },
@@ -74,6 +74,7 @@ const router = new VueRouter({
       // 用户
       path: '/user',
       component: {
+        // 这个坑是login页面的
         template: `
           <div>
             <router-view></router-view>
@@ -86,7 +87,7 @@ const router = new VueRouter({
           // 下面这个注释是让页面请求的文件名为card.js,而不是0.js之类..
           component: () => import(/* webpackChunkName: "card" */ './views/Card.vue'),
           beforeEnter (to, from, next) {
-            // 用没有登录
+            // 判断有没有登录
             if (localStorage.getItem('userName')) {
               next();
             } else {
@@ -126,5 +127,5 @@ router.afterEach((to, from, next) => {
   NProgress.done();
 })
 
-// 需要暴露
+// 暴露
 export default router;

@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div>
     <header id="header">
       <div class="logo"></div>
@@ -21,20 +21,24 @@ export default {
   data () {
     return {
       phoneInput: '',
-      codeInput: '',
+      codeInput: ''
     }
   },
+  // 计算属性,button中绑定了一个方法来获取布尔值
   computed: {
     isDisabled () {
+      // 手机号和验证码都为真返回false,false才能点击登录.
       if (this.phoneInput && this.codeInput) {
         return false;
       } else {
+        // 为true不能点击登录,点击事件不能触发
         return true;
       }
     }
   },
   methods: {
     handleLogin () {
+      // 发生请求
       axios.get('/static/api/users.json', {
         params: {
           phone: this.phoneInput,
@@ -45,9 +49,10 @@ export default {
         if (result.phone === this.phoneInput && result.code === this.codeInput) {
           console.log('登陆成功');
           // 写入本地存储
-          localStorage.setItem('userName','阿刁');
-          // 取出query的redirect
+          localStorage.setItem('userName', '喀秋莎');
+          // 取出query的redirect的值
           let redirect = this.$route.query.redirect;
+          // 登录成功从定向
           this.$router.replace(redirect);
         } else {
           alert('账号或密码错误');
@@ -111,4 +116,4 @@ export default {
     }
   }
 }
-</style> -->
+</style>

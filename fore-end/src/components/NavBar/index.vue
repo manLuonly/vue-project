@@ -32,6 +32,11 @@ export default {
           name: '影院'
         },
         {
+          id: 'group',
+          path: '/group',
+          name: '9.9拼团'
+        },
+        {
           id: 'center',
           path: '/center',
           name: '我的'
@@ -82,6 +87,14 @@ export default {
       }
       &.z-act .img {
         background-image: url('./images/cinemas_on.png');
+      }
+    }
+    &.group {
+      .img {
+        background-image: url('./images/uugroupon.png');
+      }
+      &.z-act .img {
+        background-image: url('./images/uugroupon.png');
       }
     }
     &.center {

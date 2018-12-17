@@ -1,6 +1,6 @@
 <template>
     <div class="films-list">
-
+      <!-- 轮播图 -->
       <Banner></Banner>
 
       <!-- 定位城市 -->
@@ -54,7 +54,7 @@ export default {
     getCityName () {
       let myCity = new BMap.LocalCity();
       myCity.get((result) => {
-        console.log(result)
+        // console.log(result)
         this.curCity = result.name;
       })
     },

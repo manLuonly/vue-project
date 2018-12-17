@@ -44,6 +44,8 @@ export default {
   },
   methods: {
     getFilms () {
+      // 添加请求成功的ul插件
+      this.$load.open();
       axios.get('/api/film/list', {
         params: {
           // get 请求的参数传递
@@ -51,6 +53,7 @@ export default {
           pageSize: this.pageSize
         }
       }).then((response) => {
+        this.$toast('请求成功');
         let result = response.data;
         this.totalPage = Math.ceil(result.data.total / this.pageSize);
 
@@ -62,6 +65,8 @@ export default {
         } else {
           alert(result.msg)
         }
+        // ul插件请求成功或失败都要关闭
+        this.$load.close();
       })
     },
 
@@ -97,7 +102,6 @@ export default {
   created () {
     this.getFilms();
   }
-
 }
 </script>
 

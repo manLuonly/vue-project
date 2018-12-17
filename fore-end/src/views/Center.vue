@@ -2,7 +2,7 @@
     <div class="center-view">
       <header id="header">
         <div class="tou">
-          <i class="iconfont icon-filedicon_my_green_"></i>
+          <img src="../images/center.png" alt="">
         </div>
         <h2>
           <a href="./login.html">立即登录</a>
@@ -11,11 +11,11 @@
       <main id="main">
         <div class="dingdan">
           <h3>
-            <i class="iconfont icon-dingdan" style="color: orange;"></i>
+            <img src="../images/center-left.png" alt="">
             <span>电影订单</span>
           </h3>
           <h3>
-            <i class="iconfont icon-pintuandingdan" style="color: greenyellow;;"></i>
+            <img src="../images/center-right.png" alt="">
             <span>拼团订单</span>
           </h3>
         </div>
@@ -60,7 +60,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* @import '../styles/common/px2rem.scss'; */
 @import '@/styles/common/px2rem.scss';
 
 .center-view {
@@ -69,20 +68,22 @@ export default {
 
 #header {
   height: px2rem(200);
-  background: url('~@/images/266643.jpg') no-repeat;
+  background: url(https://assets.maizuo.com/h5/v5/public/app/img/bg.6837f67.png) no-repeat;
   background-size: 100%;
   display: flex;
   .tou {
-    height: px2rem(67);
-    width: px2rem(67);
-    border: px2rem(2) solid white;
+    height: px2rem(63);
+    width:px2rem(63);
+    border:px2rem(2) solid white;
     background: #ccc;
-    border-radius: 50%;
-    align-self: center;
-    margin-left: px2rem(20);
-    .iconfont {
-      font-size: px2rem(60);
-      color: white;
+    border-radius:px2rem(35);
+    align-self:center;
+    margin-left:px2rem(20);
+    img {
+      width: px2rem(63);
+      height: px2rem(63);
+      border-radius: px2rem(35);
+      border: 2px solid #fff;
     }
   }
   h2 {
@@ -91,6 +92,8 @@ export default {
     margin-left: px2rem(20);
     a {
       color: white;
+      font-size:px2rem(16);
+      text-decoration:none;
     }
   }
 }
@@ -101,20 +104,23 @@ export default {
   flex-direction: column;
   .dingdan {
     display: flex;
-    height: px2rem(80);
+    height:px2rem(80);
     h3 {
       background: white;
       flex: 1;
       display: flex;
       flex-direction: column;
       text-align: center;
-      i {
-        font-size: px2rem(26);
-        margin: px2rem(8) 0;
+      img {
+        display: flex;
+        align-self:center;
+        width:px2rem(26);
+        margin:px2rem(8) 0;
+
       }
       span {
-        font-size: px2rem(20);
-        color: #ccc;
+        font-size: px2rem(14);
+        color: #797d82;
       }
     }
   }
@@ -139,8 +145,9 @@ export default {
           font-size: px2rem(20);
         }
         span {
-          font-size: px2rem(20);
+          font-size: px2rem(14);
           margin-left: px2rem(10);
+          color: #191a1b;
         }
       }
       .list1 {
