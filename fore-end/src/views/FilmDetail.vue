@@ -1,14 +1,17 @@
 <template>
   <div class="film">
+    <div v-for="(item, index) in films" :key="index" @click="goDetail(item.filmId)">
     <div class="film-poster">
       <img src="https://pic.maizuo.com/usr/movie/f713d0f85512087679ac951e8565d187.jpg?x-oss-process=image/quality,Q_70" alt="">
     </div>
 
-    <div class="film-detail" v-for="(item, index) in films" :key="index" @click="getFilmDetail(item.filmId)">
+    <div class="film-detail">
       <div class="col">
         <div class="film-name">
           <span class="name">{{ item.name }}</span>
           <span class="item">{{ item.filmType.name }}</span>
+          <!-- 必须先保证有filmsType才能使用.name -->
+          <!-- films.filmType && film.filmType.name -->
         </div>
         <div class="film-grade">
           <span class="grade">{{ item.grade }}</span>
@@ -18,10 +21,10 @@
 
       <div class="film-category grey-text">{{ item.category }}</div>
       <div class="film-premiere-time grey-text">
-        2018-12-07上映
+        {{ item.premiereAt }}上映
       </div>
       <div class="film-nation-runtime grey-text">
-        {{ item.nation }} |  {{ item.runtime }}
+        {{ item.nation }} |  {{ item.runtime }}分钟
       </div>
       <div class="film-synopsis grey-text">
         {{ item.synopsis }}
@@ -37,11 +40,11 @@
         </div>
         <div class="row-scroll-wrapperactors-list">
           <ul class="row-scroll-items-nav">
-            <li>
+            <li >
               <div class="lazy-img-wrap">
-                <img src="../images/renwu.jpg" alt="">
-                <span class="actors-name"> {{ item.actors.name }}</span>
-                <span class="actors-role"> {{ item.actors.role }}</span>
+                <img :src="item.poster" alt="">
+                <span class="actors-name"> {{ actorsList(item.actors) }}</span>
+                <span class="actors-role"> {{ actorsList2(item.actors) }}</span>
               </div>
             </li>
           </ul>
@@ -61,7 +64,7 @@
           </ul>
         </div>
       </div>
-
+    </div>
       <div class="goSchedule">选座购票</div>
     <!-- 从某个详情页跳到另一个详情页的功能,暂不需要 -->
     <!-- <router-link to="/film/9898">猫王</router-link> -->
@@ -76,45 +79,69 @@ export default {
   data () {
     return {
       films: [],
-      pageNum: 1 // 当前页码
+      pageNum: 1, // 当前页码
+      pageSize: 1, // 每页条数
+      totalPage: 0 // 总页数
     }
   },
 
   methods: {
-    getFilmDetail () {
-      // this.$load.open();
-      axios.get('/api/filmDetail/list', {
+    getFilmDetail (film) {
+      // 添加请求成功的ul插件
+      this.$load.open();
+      axios.get('/api/film/detail', {
         params: {
           // get 请求的参数传递
-          pageNum: this.pageNum
+          id: film
         }
-      }).then((result) => {
-        // this.$toast('请求成功');
-        // let result = response.data;
+      }).then((response) => {
+        this.$toast('请求成功');
+        let result = response.data;
+        console.log(result)
         if (result.code === 0) {
-          this.films.push(...result.data.films);
+          console.log('进来了')
+          this.films.push(...result.data);
         } else {
           alert(result.msg)
         }
-        // this.$load.close();
+        // ul插件请求成功或失败都要关闭
+        this.$load.close();
       })
     },
-    beforeRouteEnter (to, from, next) {
-    // 进入详情页面就会被调用
-      next();
-    },
 
-    beforeRouteUpdate (to, from, next) {
-      // 发生变化,就请求后台数据
-      this.getFilmDetail();
+    // 排列主演剧中名字
+    actorsList (list) {
+      let arr = [];
+      if (list) {
+        arr = list.map(item => {
+          return item.name;
+        });
+      }
+      return arr.join(' ');
     },
-
-    beforeRouteLeave (to, from, next) {
-      next();
+    // 排列主演名字
+    actorsList2 (list) {
+      let arr = [];
+      if (list) {
+        arr = list.map(item => {
+          return item.role;
+        });
+      }
+      return arr.join(' ');
+    },
+    // 详情页面
+    goDetail (id) {
+      this.$router.push({
+        name: 'filmDetail',
+        params: {
+          filmId: id
+        }
+      })
     }
   },
   created () {
-    this.getFilmDetail();
+    let film = this.$route.params.filmId;
+    this.getFilmDetail(film);
   }
 }
 </script>
@@ -211,7 +238,7 @@ export default {
   .actors {
     margin-top: px2rem(10);
     background-color: #fff;
-    height: px2rem(140);
+    height: px2rem(190);
     .actors-title-bar {
       width: 100%;
       padding: px2rem(15);
@@ -224,7 +251,11 @@ export default {
     .row-scroll-wrapperactors-list{
       padding-left: px2rem(15);
       background: #fff;
-      li{
+      overflow-x: auto;
+      overflow-y: hidden;
+      .row-scroll-items-nav{
+        height: px2rem(165);
+              li{
         width:px2rem(85);
         height: px2rem(143);
         margin-right:px2rem(10);
@@ -248,18 +279,21 @@ export default {
           font-size: px2rem(10);
           color: #797d82;
           display: block;
+          white-space: nowrap;
           text-align: center;
+            }
           }
         }
       }
     }
   }
   .photos{
+    height: px2rem(180);
     margin-top: px2rem(55);
     margin-bottom: px2rem(60);
     background-color: #fff;
     position: relative;
-    top: px2rem(10);
+    top: px2rem(-15);
     .photos-title-bar{
       height: px2rem(62);
       padding:px2rem(15);

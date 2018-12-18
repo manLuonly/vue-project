@@ -143,7 +143,7 @@ export default {
 
       .label {
         color: #797d82;
-        margin-right: px2rem(2);
+        margin-right: px2rem(12);
       }
 
       .name {

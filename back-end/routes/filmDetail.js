@@ -7,7 +7,7 @@ var url = 'mongodb://127.0.0.1:27017/';
 
 
 // 获取影片列表  location:3000/api/film/list
-router.get('/list', function(req, res) {
+router.get('/filmDetail/list', function(req, res) {
   var pageNum = parseInt(req.query.pageNum) || 1; // 当前第几页
   var pageSize = parseInt(req.query.pageSize) || 5; // 每页显示多少条
   var type = parseInt(req.query.type) || 1; // 影片的类型，正在上映or即将上映 1-正在上映 2-即将上映
@@ -42,7 +42,7 @@ router.get('/list', function(req, res) {
 
       async.waterfall([
         function (cb) {
-          db.collection('films').find(param).count(function(err, num) {
+          db.collection('Details').find(param).count(function(err, num) {
             if (err) {
               cb(err);
             } else {
@@ -52,7 +52,7 @@ router.get('/list', function(req, res) {
         },
 
         function (num, cb) {
-          db.collection('films').find(param).skip(pageSize * pageNum - pageSize).limit(pageSize).toArray(function(err, data) {
+          db.collection('Details').find(param).skip(pageSize * pageNum - pageSize).limit(pageSize).toArray(function(err, data) {
             if (err) {
               cb(err);
             } else {
@@ -81,38 +81,7 @@ router.get('/list', function(req, res) {
       })
     }
   })
-}),
-router.get('/detail',function(req,res){
-  console.log(req.query.id)
-  var filmId = req.query.id
-  MongoClient.connect(url, { useNewUrlParser: true }, function(err, client) {
-    if (err) {
-      console.log("连接数据库失败",err)
-      res.json({
-        code: 1,
-        msg: '网络异常, 请稍候重试'
-      })
-    } else {
-      var db = client.db('maizuo');
-      db.collection('films').find({filmId:parseInt(filmId)}).toArray(function(err,data){
-        if (err) {
-          console.log("查询数据库失败")
-          res.json({
-            code: 1,
-            msg: '网络异常, 请稍候重试'
-          })
-        } else {
-          res.json({
-            code:0,
-            msg:"ok",
-            data:data
-          })
-        }
-      })
-    }
-  })
 })
-
 
 
 module.exports = router;

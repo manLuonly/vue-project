@@ -5,7 +5,7 @@
           <img src="../images/center.png" alt="">
         </div>
         <h2>
-          <a href="./login.html">立即登录</a>
+          <router-link to="/user/card">立即登录</router-link>
         </h2>
       </header>
       <main id="main">
@@ -29,7 +29,7 @@
               <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
             </div>
           </router-link>
-          <div class="balace">
+          <router-link tag="div" class="balace" to="/user/card">
             <div class="list">
               <i style="color: red;" class="iconfont icon-yue"></i>
               <span>余额</span>
@@ -38,8 +38,8 @@
               <p>￥0</p>
               <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
             </div>
-          </div>
-          <div class="set">
+          </router-link>
+          <router-link tag="div" class="set" to="/user/card">
             <div class="list">
               <i style="color: rgb(15, 235, 52);" class="iconfont icon-shezhi2"></i>
               <span>设置</span>
@@ -47,15 +47,46 @@
             <div class="list1">
               <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
             </div>
-          </div>
+          </router-link>
         </div>
       </main>
     </div>
   </template>
 
 <script>
+import axios from 'axios';
 export default {
-  name: 'Center'
+  name: 'Login',
+  data () {
+    return {
+      phoneInput: '',
+      codeInput: ''
+    }
+  },
+  methods: {
+    handleLogin () {
+      // 发生请求
+      axios.get('/static/api/users.json', {
+        params: {
+          phone: this.phoneInput,
+          code: this.codeInput
+        }
+      }).then(res => {
+        var result = res.data;
+        if (result.phone === this.phoneInput && result.code === this.codeInput) {
+          console.log('登陆成功');
+          // 写入本地存储
+          localStorage.setItem('userName', '喀秋莎');
+          // 取出query的redirect的值
+          let redirect = this.$route.query.redirect;
+          // 登录成功从定向
+          this.$router.replace(redirect);
+        } else {
+          alert('账号或密码错误');
+        }
+      })
+    }
+  }
 }
 </script>
 
