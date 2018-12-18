@@ -1,33 +1,33 @@
 <template>
   <div class="film">
-    <div v-for="(item, index) in films" :key="index" @click="goDetail(item.filmId)">
+    <div>
     <div class="film-poster">
-      <img src="https://pic.maizuo.com/usr/movie/f713d0f85512087679ac951e8565d187.jpg?x-oss-process=image/quality,Q_70" alt="">
+      <img :src="films.poster" alt="">
     </div>
 
     <div class="film-detail">
       <div class="col">
         <div class="film-name">
-          <span class="name">{{ item.name }}</span>
-          <span class="item">{{ item.filmType.name }}</span>
+          <span class="name">{{ films.name }}</span>
           <!-- 必须先保证有filmsType才能使用.name -->
           <!-- films.filmType && film.filmType.name -->
+          <span class="item">{{ films.filmType && films.filmType.name }}</span>
         </div>
         <div class="film-grade">
-          <span class="grade">{{ item.grade }}</span>
+          <span class="grade">{{ films.grade }}</span>
           <span class="grade-text">分</span>
         </div>
       </div>
 
-      <div class="film-category grey-text">{{ item.category }}</div>
+      <div class="film-category grey-text">{{ films.category }}</div>
       <div class="film-premiere-time grey-text">
-        {{ item.premiereAt }}上映
+        {{ filmdeta(films.premiereAt) }}上映
       </div>
       <div class="film-nation-runtime grey-text">
-        {{ item.nation }} |  {{ item.runtime }}分钟
+        {{ films.nation }} |  {{ films.runtime }}分钟
       </div>
       <div class="film-synopsis grey-text">
-        {{ item.synopsis }}
+        {{ films.synopsis }}
       </div>
       <div class="toggle">
         <i class="iconfont icon-xiala"></i>
@@ -40,11 +40,11 @@
         </div>
         <div class="row-scroll-wrapperactors-list">
           <ul class="row-scroll-items-nav">
-            <li >
+            <li v-for="(item, index) in films.actors" :key="index" >
               <div class="lazy-img-wrap">
-                <img :src="item.poster" alt="">
-                <span class="actors-name"> {{ actorsList(item.actors) }}</span>
-                <span class="actors-role"> {{ actorsList2(item.actors) }}</span>
+                <img :src="item.avatarAddress" alt="">
+                <span class="actors-name"> {{ item.name }}</span>
+                <span class="actors-role"> {{ item.role }}</span>
               </div>
             </li>
           </ul>
@@ -59,7 +59,7 @@
         <div class="row-scroll-wrapper photos-list">
           <ul class="row-scroll-items-nav">
             <li class="row-scroll-item photos-item-wrap">
-              <img src="../images/juzhao.jpg" alt="">
+              <img :src="films.poster" alt="">
             </li>
           </ul>
         </div>
@@ -78,10 +78,7 @@ export default {
 
   data () {
     return {
-      films: [],
-      pageNum: 1, // 当前页码
-      pageSize: 1, // 每页条数
-      totalPage: 0 // 总页数
+      films: {}
     }
   },
 
@@ -96,39 +93,22 @@ export default {
         }
       }).then((response) => {
         this.$toast('请求成功');
-        let result = response.data;
-        console.log(result)
-        if (result.code === 0) {
-          console.log('进来了')
-          this.films.push(...result.data);
+        console.log(response)
+        // response.data.code === 0 代表数据接收成功
+        if (response.data.code === 0) {
+          // 这里相当于循环了response对象,对象.对象.数组才能拿到想要的数据
+          this.films = response.data.data[0];
+          // 这个是想要的数据
+          console.log(this.films)
         } else {
-          alert(result.msg)
+          // 接收失败
+          console.log(response.data.msg)
         }
         // ul插件请求成功或失败都要关闭
         this.$load.close();
       })
     },
 
-    // 排列主演剧中名字
-    actorsList (list) {
-      let arr = [];
-      if (list) {
-        arr = list.map(item => {
-          return item.name;
-        });
-      }
-      return arr.join(' ');
-    },
-    // 排列主演名字
-    actorsList2 (list) {
-      let arr = [];
-      if (list) {
-        arr = list.map(item => {
-          return item.role;
-        });
-      }
-      return arr.join(' ');
-    },
     // 详情页面
     goDetail (id) {
       this.$router.push({
@@ -137,10 +117,21 @@ export default {
           filmId: id
         }
       })
+    },
+    // 时间戳转真正的时间
+    filmdeta (premiereAt) {
+      var date = new Date(premiereAt * 1000);
+      var y = date.getFullYear() + '-';
+      var m = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var d = date.getDate() + '';
+      return y + m + d;
     }
   },
+  // 传递ID
   created () {
+    // 拿到ID传回getFilmDetail()方法里,根据ID获取数据
     let film = this.$route.params.filmId;
+    // console.log(film)
     this.getFilmDetail(film);
   }
 }
@@ -254,11 +245,13 @@ export default {
       overflow-x: auto;
       overflow-y: hidden;
       .row-scroll-items-nav{
+        display: flex;
         height: px2rem(165);
-              li{
+        li{
         width:px2rem(85);
-        height: px2rem(143);
+        height: px2rem(100);
         margin-right:px2rem(10);
+        float:left;
         .lazy-img-wrap{
         width: px2rem(85);
         height: px2rem(85);
@@ -273,13 +266,14 @@ export default {
           text-overflow: ellipsis;
           white-space: nowrap;
           color: #191a1b;
+          text-align: center;
+          display: inline-block;
         }
         .actors-role{
           margin: px2rem(5);
           font-size: px2rem(10);
           color: #797d82;
           display: block;
-          white-space: nowrap;
           text-align: center;
             }
           }
@@ -316,7 +310,7 @@ export default {
         margin-left:px2rem(15);
         margin-right:px2rem(10);
         img{
-          width: 100%;
+          width: px2rem(80);
         }
       }
     }
