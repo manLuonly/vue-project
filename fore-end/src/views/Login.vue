@@ -38,24 +38,23 @@ export default {
   },
   methods: {
     handleLogin () {
-      // 发生请求
-      axios.get('/static/api/users.json', {
-        params: {
-          phone: this.phoneInput,
-          code: this.codeInput
-        }
+      // 发送请求,账号密码传递
+      axios.post('/api/user/login', {
+        username: this.phoneInput,
+        password: this.codeInput
       }).then(res => {
-        var result = res.data;
-        if (result.phone === this.phoneInput && result.code === this.codeInput) {
-          console.log('登陆成功');
+        console.log(res)
+        var data = res.data;
+        if (data.code === 0) {
+          alert('登录成功')
           // 写入本地存储
-          localStorage.setItem('userName', '喀秋莎');
+          localStorage.setItem('userName', this.username);
           // 取出query的redirect的值
           let redirect = this.$route.query.redirect;
           // 登录成功从定向
           this.$router.replace(redirect);
-        } else {
-          alert('账号或密码错误');
+        } else if(data.code === 2) {
+          alert('用户已存在')
         }
       })
     }
@@ -90,6 +89,7 @@ export default {
     input {
       width: 70%;
       font-size: px2rem(18);
+      border: 0;
     }
 
     span {

@@ -5,7 +5,7 @@
 
       <!-- 定位城市 -->
       <div class="city-fixed">
-        <span>{{ curCity }}</span>
+        <router-link to="/city" tag="span">{{ curCity }}</router-link>
         <i class="iconfont icon-xiala"></i>
       </div>
       <!-- /定位城市 -->

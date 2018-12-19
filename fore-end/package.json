@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "mint-ui": "^2.2.13",
     "nprogress": "^0.2.0",
     "swiper": "^4.4.2",
     "vue": "^2.5.2",

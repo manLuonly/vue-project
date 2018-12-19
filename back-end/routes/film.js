@@ -82,6 +82,7 @@ router.get('/list', function(req, res) {
     }
   })
 }),
+// 获取详情页列表
 router.get('/detail',function(req,res){
   console.log(req.query.id)
   var filmId = req.query.id
@@ -111,8 +112,36 @@ router.get('/detail',function(req,res){
       })
     }
   })
+}),
+// 获取城市列表
+router.get('/city',function(req,res){
+  var cityId = req.query.id
+  MongoClient.connect(url, { useNewUrlParser: true }, function(err,client){
+    if (err) {
+      console.log("连接数据库失败",err)
+      res.json({
+        code: 1,
+        msg: '网络异常, 请稍候重试'
+      })
+    } else {
+      var db = client.db('maizuo');
+      db.collection('city').find({cityId:parseInt(cityId)}).toArray(function(err,data){
+        if (err) {
+          console.log("查询数据库失败")
+          res.json({
+            code: 1,
+            msg: '网络异常, 请稍候重试'
+          })
+        } else {
+          res.json({
+            code:0,
+            msg:"ok",
+            data:data
+          })
+        }
+      })
+    }
+  })
 })
-
-
 
 module.exports = router;

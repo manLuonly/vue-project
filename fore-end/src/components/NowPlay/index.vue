@@ -88,7 +88,7 @@ export default {
         this.getFilms();
       }
     },
-    // 详情页面
+    // 详情页面,根据传递的ID获取数据
     goDetail (id) {
       this.$router.push({
         name: 'filmDetail',

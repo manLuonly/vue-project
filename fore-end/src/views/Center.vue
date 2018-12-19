@@ -73,6 +73,7 @@ export default {
         }
       }).then(res => {
         var result = res.data;
+        // 如果input输入的手机号和验证码与json里一致,就可以登录成功(写死了)
         if (result.phone === this.phoneInput && result.code === this.codeInput) {
           console.log('登陆成功');
           // 写入本地存储

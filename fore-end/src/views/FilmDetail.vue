@@ -54,7 +54,7 @@
       <div class="photos">
         <div class="photos-title-bar">
           <span class="photos-title-text">剧照</span>
-          <span class="photos-to-all">全部(6)</span>
+          <span class="photos-to-all">全部(1)</span>
         </div>
         <div class="row-scroll-wrapper photos-list">
           <ul class="row-scroll-items-nav">
@@ -108,16 +108,6 @@ export default {
         this.$load.close();
       })
     },
-
-    // 详情页面
-    goDetail (id) {
-      this.$router.push({
-        name: 'filmDetail',
-        params: {
-          filmId: id
-        }
-      })
-    },
     // 时间戳转真正的时间
     filmdeta (premiereAt) {
       var date = new Date(premiereAt * 1000);
@@ -131,6 +121,8 @@ export default {
   created () {
     // 拿到ID传回getFilmDetail()方法里,根据ID获取数据
     let film = this.$route.params.filmId;
+    // let a = this.$route.params;
+    // console.log(a)
     // console.log(film)
     this.getFilmDetail(film);
   }

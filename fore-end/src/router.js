@@ -9,6 +9,8 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
+    // 路由分为一个大路由,大路由中包括电影页等四个页面,及电影页的两个小页面(正在热映,即将上映)
+    // 大路由同级分为详情,用户(里面有登录页),搜索,城市列表四个页面
     {
       path: '/',
       // 引入路由组件
@@ -105,12 +107,26 @@ const router = new VueRouter({
             }
           }
         },
+        // 登录
         {
           path: 'login',
           component: () => import('./views/Login.vue')
         }
       ]
     },
+    // 搜索页...跟用户,详情页同级,从影院页(/cinemas)跳到搜索页(/search)
+    {
+      path: '/cinemas/search',
+      name: 'search',
+      component: () => import('./views/Search.vue')
+    },
+    // 城市列表
+    {
+      path: '/city',
+      name: 'city',
+      component: () => import('./views/City.vue')
+    },
+    // 随便输入就跳到首页
     {
       path: '*',
       redirect: '/films/nowPlaying'
