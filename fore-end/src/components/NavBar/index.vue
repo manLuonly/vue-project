@@ -50,10 +50,14 @@ export default {
 @import '@/styles/common/px2rem.scss';
 
 .nav-bar {
+  width: 100%;
   flex-shrink: 0;
   display: flex;
+  position: fixed;
+  bottom: 0;
   height: px2rem(50);
   border-top: px2rem(1) solid #ededed;
+  background: #fff;
   img {
     width: px2rem(21);
     height: px2rem(21);

@@ -1,11 +1,11 @@
 <template>
   <div>
-    我是卖座卡
+    我是余额
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Card'
+  name: 'Balance'
 }
 </script>

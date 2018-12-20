@@ -5,7 +5,7 @@
           <img src="../images/center.png" alt="">
         </div>
         <h2>
-          <router-link to="/user/card">立即登录</router-link>
+          <router-link to="/user/card">{{ userName ? this.userName : '立即登录' }}</router-link>
         </h2>
       </header>
       <main id="main">
@@ -29,7 +29,7 @@
               <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
             </div>
           </router-link>
-          <router-link tag="div" class="balace" to="/user/card">
+          <router-link tag="div" class="balace" to="/user/balance">
             <div class="list">
               <i style="color: red;" class="iconfont icon-yue"></i>
               <span>余额</span>
@@ -39,7 +39,7 @@
               <i class="iconfont icon-20151209tubiaolianxizhuanhuan09-copy"></i>
             </div>
           </router-link>
-          <router-link tag="div" class="set" to="/user/card">
+          <router-link tag="div" class="set" to="/user/setup">
             <div class="list">
               <i style="color: rgb(15, 235, 52);" class="iconfont icon-shezhi2"></i>
               <span>设置</span>
@@ -54,40 +54,29 @@
   </template>
 
 <script>
-import axios from 'axios';
+import {mapState} from 'vuex';
 export default {
   name: 'Login',
   data () {
     return {
-      phoneInput: '',
-      codeInput: ''
+      // log: false
     }
   },
-  methods: {
-    handleLogin () {
-      // 发生请求
-      axios.get('/static/api/users.json', {
-        params: {
-          phone: this.phoneInput,
-          code: this.codeInput
-        }
-      }).then(res => {
-        var result = res.data;
-        // 如果input输入的手机号和验证码与json里一致,就可以登录成功(写死了)
-        if (result.phone === this.phoneInput && result.code === this.codeInput) {
-          console.log('登陆成功');
-          // 写入本地存储
-          localStorage.setItem('userName', '喀秋莎');
-          // 取出query的redirect的值
-          let redirect = this.$route.query.redirect;
-          // 登录成功从定向
-          this.$router.replace(redirect);
-        } else {
-          alert('账号或密码错误');
-        }
-      })
-    }
+  computed: {
+    ...mapState([
+      'userName'
+    ])
   }
+  // created () {
+  //   let name = localStorage.getItem('userName');
+  //   consooe
+  //   if (name) {
+  //     this.log = true;
+  //   } else {
+  //     this.log = false;
+  //   }
+  // }
+
 }
 </script>
 

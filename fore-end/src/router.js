@@ -107,6 +107,14 @@ const router = new VueRouter({
             }
           }
         },
+        {
+          path: 'balance',
+          component: () => import('./views/Balance.vue')
+        },
+        {
+          path: 'setup',
+          component: () => import('./views/Setup.vue')
+        },
         // 登录
         {
           path: 'login',

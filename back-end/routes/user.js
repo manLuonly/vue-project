@@ -38,13 +38,13 @@ router.post('/login',function(req,res){
         db.collection('user').insertOne({
           username: username,
           password: password
+        },function(err) {
+          if (err) {
+            cb(err)
+          } else {
+            cb(null)
+          }
         })
-      },function(err) {
-        if (err) {
-          cb(err)
-        } else {
-          cb(null)
-        }
       }
     ],function(err,result){
       if (err) {
@@ -52,7 +52,8 @@ router.post('/login',function(req,res){
       } else {
         res.json({
           code:0,
-          msg:'登陆成功'
+          msg:'登陆成功',
+          username:username
         })
       }
       client.close();

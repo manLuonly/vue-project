@@ -44,16 +44,17 @@ export default {
         password: this.codeInput
       }).then(res => {
         console.log(res)
-        var data = res.data;
+        let data = res.data; // 后台返回的状态
+        let username = res.data.username; // 后台返回的用户名
         if (data.code === 0) {
           alert('登录成功')
           // 写入本地存储
-          localStorage.setItem('userName', this.username);
+          localStorage.setItem('userName', username);
           // 取出query的redirect的值
           let redirect = this.$route.query.redirect;
           // 登录成功从定向
           this.$router.replace(redirect);
-        } else if(data.code === 2) {
+        } else if (data.code === 2) {
           alert('用户已存在')
         }
       })

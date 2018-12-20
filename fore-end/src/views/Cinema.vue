@@ -25,16 +25,16 @@
 
     <div class="cinema-list-wrap">
       <ul class="cinema-list">
-        <li class="cinema-list-item">
+        <li class="cinema-list-item" v-for="(item, index) in films" :key="index" >
           <a href="" class="cinema-item-wrap">
             <div class="cinema-info-lf cinema-info">
-                <span class="cinema-name">英皇电影城（东海缤纷店）</span>
-                <span class="cinema-address">东海国际中心二期B区101之B1002号商铺</span>
+                <span class="cinema-name">{{ item.name }}</span>
+                <span class="cinema-address">{{ item.address }}</span>
               </div>
             <div class="cinema-info-rt cinema-info">
               <div class="Rmb">
                 <span class="cinema-lowPrice price-fmt">¥</span>
-                <span class="interge">69</span>
+                <span class="interge">{{ getTime(item.lowPrice )}}</span>
                 <span class="upon">起</span>
               </div>
               <span class="cinema-gpsAddress">距离未知</span>
@@ -47,8 +47,32 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  name: 'Cinema'
+  name: 'Cinema',
+  data () {
+    return {
+      films: []
+    }
+  },
+  methods: {
+    getdata () {
+      axios.get('api/list').then(res => {
+        // console.log(res.data.data)
+        // 数组解构赋值
+        this.films.push(...res.data.data)
+      })
+    },
+    // 转真正的价格
+    getTime (lowPrice) {
+      var time = lowPrice / 100;
+      return time;
+    }
+  },
+  // 执行getdata方法(请求接口)
+  created () {
+    this.getdata();
+  }
 }
 </script>
 
@@ -64,6 +88,7 @@ export default {
     top: 0;
     left: 0;
     height: px2rem(44);
+    background: #fff;
 
     .left{
       width: px2rem(56.25);
@@ -117,6 +142,7 @@ export default {
     text-align: center;
     z-index: 99;
     border-bottom: px2rem(1) solid #ededed;
+    background: #fff;
     label{
       float: left;
       width: 50%;
@@ -135,7 +161,7 @@ export default {
     ul{
       list-style: none;
       li{
-        height: px2rem(45);
+        height: px2rem(65);
         background-color: #fff;
         padding-left: px2rem(15);
         .cinema-item-wrap{
