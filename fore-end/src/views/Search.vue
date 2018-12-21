@@ -46,13 +46,15 @@ export default {
           val: newVal
         }
       }).then((response) => {
+        console.log(response)
         if (response.data.code === 0) {
           this.films.push(...response.data.data[1])
         } else {
-          console.log('1')
+          console.log('没有你想要的信息')
         }
       })
     },
+    // 转真正时间
     getTime (lowPrice) {
       var time = lowPrice / 100;
       return time;
@@ -61,13 +63,12 @@ export default {
   // 监听input的实时变化
   watch: {
     input (newVal, oldVal) { // newVal为新值,oldVal为久值
-      console.log(newVal)
       if (newVal) {
         // console.log('发生变化了')
         console.log(newVal)
         this.getCity(newVal);
       } else {
-        console('0')
+        this.getCity(oldVal);
       }
     }
   }
@@ -100,6 +101,8 @@ export default {
     }
   }
   .cinema-list-wrap{
+    overflow-y: auto;
+    height: px2rem(10000);
     ul{
       list-style: none;
       li{

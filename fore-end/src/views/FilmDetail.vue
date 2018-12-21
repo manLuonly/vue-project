@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-      <div class="goSchedule">选座购票</div>
+    <router-link to="/cinemas" tag="div" class="goSchedule">选座购票</router-link>
     <!-- 从某个详情页跳到另一个详情页的功能,暂不需要 -->
     <!-- <router-link to="/film/9898">猫王</router-link> -->
   </div>

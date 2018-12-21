@@ -21,7 +21,10 @@
             <span class="label">{{ item.nation }} | {{ item.runtime }}分钟</span>
           </div>
         </div>
-        <div class="buy">购票</div>
+        <!-- <div class="buy">购票</div> -->
+        <button @click.stop="reduceFilm(item)">-</button>
+        <input type="text" disabled :value="findNum(item)">
+        <button @click.stop="addFilm(item)">+</button>
       </li>
     </ul>
 
@@ -31,6 +34,7 @@
 
 <script>
 import axios from 'axios';
+import { mapMutations, mapState } from 'vuex';
 export default {
   name: 'NowPlay',
   data () {
@@ -42,9 +46,19 @@ export default {
       totalPage: 0 // 总页数
     }
   },
+  computed: {
+    ...mapState([
+      'filmsCard'
+    ])
+  },
   methods: {
+    // vuex的方法
+    ...mapMutations([
+      'addFilm',
+      'reduceFilm'
+    ]),
     getFilms () {
-      // 添加请求成功的ul插件
+    // 添加请求成功的ul插件
       this.$load.open();
       axios.get('/api/film/list', {
         params: {
@@ -69,7 +83,6 @@ export default {
         this.$load.close();
       })
     },
-
     // 排列主演列表
     actorsList (list) {
       let arr = [];
@@ -83,7 +96,9 @@ export default {
     // 加载更多
     loadMore () {
       console.log('请求数据');
+      // 如果 < 总页数
       if (this.pageNum < this.totalPage) {
+        console.log(this.pageNum, this.totalPage)
         this.pageNum++;
         this.getFilms();
       }
@@ -96,8 +111,20 @@ export default {
           filmId: id
         }
       })
+    },
+    // 查找当前电影在购物车中的数量
+    findNum (item) {
+      let filmId = item.filmId;
+      let num = 0;
+      this.filmsCard.forEach(item => {
+        if (item.filmId === filmId) {
+          num = item.filmNum;
+        }
+      });
+      return num;
     }
   },
+
   // 默认加载一页
   created () {
     this.getFilms();
@@ -109,11 +136,19 @@ export default {
   @import '@/styles/common/px2rem.scss';
 
   .film-list-content {
+    padding-bottom: px2rem(50);
     li {
       display: flex;
       margin: 0 px2rem(15);
       padding: px2rem(15) 0;
       border-bottom: px2rem(1) solid #ededed;
+      button{
+        height: px2rem(35);
+      }
+      input{
+        width: px2rem(50);
+        height: px2rem(30);
+      }
     }
 
     .img {
@@ -178,8 +213,9 @@ export default {
   }
 
   .load-more {
-    height: px2rem(30);
+    height: px2rem(20);
     line-height: px2rem(30);
     text-align: center;
+    font-size: px2rem(14);
   }
 </style>
