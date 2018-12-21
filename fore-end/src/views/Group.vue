@@ -89,6 +89,7 @@ export default {
   display: flex;
   flex: 1;
   li{
+    margin-top: px2rem(10);
     .item-text{
       margin-left: px2rem(22);
       .table-cell{
